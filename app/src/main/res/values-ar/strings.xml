@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ClimDZ</string>
+    <string name="tab_sizing">حساب القدرة</string>
+    <string name="tab_clients">الزبائن</string>
+    <string name="tab_interventions">البطاقات</string>
+    <string name="tab_settings">الإعدادات</string>
+    <string name="surface">المساحة (م²)</string>
+    <string name="height">ارتفاع السقف (م)</string>
+    <string name="exposure">التعرض للشمس</string>
+    <string name="exp_shaded">مظلل</string>
+    <string name="exp_average">عادي</string>
+    <string name="exp_sunny">مشمس</string>
+    <string name="insulation">العزل</string>
+    <string name="ins_poor">ضعيف</string>
+    <string name="ins_average">متوسط</string>
+    <string name="ins_good">جيد</string>
+    <string name="occupants">عدد الأشخاص</string>
+    <string name="kitchen">مطبخ (+4000 BTU)</string>
+    <string name="topfloor">الطابق الأخير (+10 %)</string>
+    <string name="calculate">احسب</string>
+    <string name="btu_needed">الـ BTU المطلوبة</string>
+    <string name="power_kw">القدرة (kW)</string>
+    <string name="recommended">الموديل الموصى به</string>
+    <string name="save_fiche">حفظ البطاقة</string>
+    <string name="room_label">الغرفة (مثال: صالون)</string>
+    <string name="client_name">اسم الزبون</string>
+    <string name="client_phone">الهاتف</string>
+    <string name="client_address">العنوان / الولاية</string>
+    <string name="add_client">إضافة زبون</string>
+    <string name="notes">ملاحظات</string>
+    <string name="share_pdf">مشاركة PDF</string>
+    <string name="delete">حذف</string>
+    <string name="checklist_title">قائمة صيانة التبريد</string>
+    <string name="language">Langue / اللغة</string>
+    <string name="lang_fr">Français</string>
+    <string name="lang_ar">العربية</string>
+    <string name="about">يعمل دون إنترنت • بدون حساب • البيانات على الجهاز</string>
+    <string name="no_data">لا توجد بيانات بعد.</string>
+    <string-array name="checklist_items">
+        <item>فحص ضغوط HP/BP ‏(R32 / R410A)‏</item>
+        <item>كشف التسرب (كاشف + رغوة)</item>
+        <item>تنظيف / استبدال الفلاتر الداخلية</item>
+        <item>تنظيف بطارية المكثف الخارجية</item>
+        <item>فحص تصريف التكاثف + المضخة</item>
+        <item>مراقبة شد الوصلات الكهربائية</item>
+        <item>قياس شدة التيار + جهد التغذية</item>
+        <item>فحص الوصلات والبحث عن الزيت</item>
+        <item>تجربة جهاز التحكم + الأوضاع</item>
+        <item>قياس ΔT النفخ / السحب (8–12 °م)</item>
+        <item>تعبئة الغاز عند نقص مؤكد</item>
+        <item>تجربة نهائية + توصيات للزبون</item>
+    </string-array>
+</resources>
