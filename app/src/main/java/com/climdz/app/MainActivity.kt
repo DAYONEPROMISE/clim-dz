@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -76,7 +78,7 @@ fun ClimDzRoot() {
                         NavigationBarItem(
                             selected = cur == t,
                             onClick = { nav.navigate(t) { launchSingleTop = true } },
-                            icon = { Icon(androidx.compose.material.icons.Icons.Default.Check, contentDescription = null) },
+                            icon = { Icon(Icons.Filled.Check, contentDescription = null) },
                             label = { Text(label) }
                         )
                     }
