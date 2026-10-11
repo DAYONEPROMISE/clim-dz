@@ -35,17 +35,17 @@
     <string name="language">Langue / اللغة</string>
     <string name="lang_fr">Français</string>
     <string name="lang_ar">العربية</string>
-    <string name="about">100 % hors-ligne • Aucun compte • Données sur l'appareil</string>
+    <string name="about">100 % hors-ligne • Aucun compte • Données sur l\'appareil</string>
     <string name="no_data">Aucune donnée pour le moment.</string>
     <string-array name="checklist_items">
         <item>Vérifier pressions HP/BP (R32 / R410A)</item>
-        <item>Contrôle d'étanchéité (détecteur + mousse)</item>
+        <item>Contrôle d\'étanchéité (détecteur + mousse)</item>
         <item>Nettoyer / remplacer filtres intérieurs</item>
         <item>Nettoyer batterie condenseur extérieure</item>
         <item>Vérifier écoulement condensats + pompe</item>
         <item>Contrôler serrage connexions électriques</item>
-        <item>Mesurer intensité + tension d'alimentation</item>
-        <item>Vérifier dudgeons / flare, recherche d'huile</item>
+        <item>Mesurer intensité + tension d\'alimentation</item>
+        <item>Vérifier dudgeons / flare, recherche d\'huile</item>
         <item>Tester télécommande + modes (froid/chaud/vent)</item>
         <item>Mesurer ΔT soufflage / reprise (8–12 °C)</item>
         <item>Complément de charge si sous-charge avérée</item>
