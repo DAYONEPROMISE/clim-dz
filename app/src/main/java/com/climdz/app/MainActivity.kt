@@ -6,7 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Calculate
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -23,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.LocaleListCompat
@@ -75,10 +79,16 @@ fun ClimDzRoot() {
                             "fiches" -> stringResource(R.string.tab_interventions)
                             else -> stringResource(R.string.tab_settings)
                         }
+                        val icon: ImageVector = when (t) {
+                            "sizing" -> Icons.Filled.Calculate
+                            "clients" -> Icons.Filled.Person
+                            "fiches" -> Icons.Filled.List
+                            else -> Icons.Filled.Settings
+                        }
                         NavigationBarItem(
                             selected = cur == t,
                             onClick = { nav.navigate(t) { launchSingleTop = true } },
-                            icon = { Icon(Icons.Filled.Check, contentDescription = null) },
+                            icon = { Icon(icon, contentDescription = label) },
                             label = { Text(label) }
                         )
                     }
