@@ -17,7 +17,7 @@
     <string name="ins_good">جيد</string>
     <string name="occupants">عدد الأشخاص</string>
     <string name="kitchen">مطبخ (+4000 BTU)</string>
-    <string name="topfloor">الطابق الأخير (+10 %)</string>
+    <string name="topfloor">الطابق الأخير (+10 %%)</string>
     <string name="calculate">احسب</string>
     <string name="btu_needed">الـ BTU المطلوبة</string>
     <string name="power_kw">القدرة (kW)</string>

@@ -17,7 +17,7 @@
     <string name="ins_good">Bonne</string>
     <string name="occupants">Occupants</string>
     <string name="kitchen">Cuisine (+4000 BTU)</string>
-    <string name="topfloor">Dernier étage (+10 %)</string>
+    <string name="topfloor">Dernier étage (+10 %%)</string>
     <string name="calculate">Calculer</string>
     <string name="btu_needed">BTU nécessaires</string>
     <string name="power_kw">Puissance (kW)</string>
@@ -35,7 +35,7 @@
     <string name="language">Langue / اللغة</string>
     <string name="lang_fr">Français</string>
     <string name="lang_ar">العربية</string>
-    <string name="about">100 % hors-ligne • Aucun compte • Données sur l\'appareil</string>
+    <string name="about">100 %% hors-ligne • Aucun compte • Données sur l\'appareil</string>
     <string name="no_data">Aucune donnée pour le moment.</string>
     <string-array name="checklist_items">
         <item>Vérifier pressions HP/BP (R32 / R410A)</item>
