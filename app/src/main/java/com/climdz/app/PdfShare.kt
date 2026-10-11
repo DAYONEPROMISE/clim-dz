@@ -11,7 +11,7 @@ import java.io.File
 /** Builds a simple intervention fiche PDF with the platform API (no dependency) and shares it. */
 fun shareInterventionPdf(ctx: Context, item: Intervention, checklist: List<String>) {
     val doc = PdfDocument()
-    val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).build()
+    val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
     val page = doc.startPage(pageInfo)
     val c = page.canvas
     val title = Paint().apply { textSize = 20f; isFakeBoldText = true }

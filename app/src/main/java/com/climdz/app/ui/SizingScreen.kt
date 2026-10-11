@@ -9,10 +9,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -33,7 +29,6 @@ import com.climdz.app.R
 import com.climdz.app.SizingEngine
 import com.climdz.app.data.Intervention
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SizingScreen(vm: AppViewModel) {
     var surface by remember { mutableStateOf("20") }
@@ -46,7 +41,6 @@ fun SizingScreen(vm: AppViewModel) {
     var roomLabel by remember { mutableStateOf("") }
     var clientName by remember { mutableStateOf("") }
     var result by remember { mutableStateOf<Int?>(null) }
-    var expanded by remember { mutableStateOf(false) }
     val checklist = stringArrayResource(R.array.checklist_items)
     var checked by remember { mutableStateOf(setOf<Int>()) }
 
@@ -113,29 +107,16 @@ fun SizingScreen(vm: AppViewModel) {
             Text("${stringResource(R.string.btu_needed)}: $btu BTU", style = MaterialTheme.typography.titleMedium)
             Text("${stringResource(R.string.power_kw)}: ${"%.2f".format(SizingEngine.kilowatts(btu))}")
             Text("${stringResource(R.string.recommended)}: $rec BTU", style = MaterialTheme.typography.titleMedium)
-            ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
-                OutlinedTextField(
-                    checked.size.toString() + " / " + checklist.size,
-                    {}, readOnly = true, label = { Text(stringResource(R.string.checklist_title)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
-                    modifier = Modifier.menuAnchor().fillMaxWidth()
-                )
-                androidx.compose.material3.ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                    checklist.forEachIndexed { i, label ->
-                        DropdownMenuItem(
-                            text = {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Checkbox(i in checked, {
-                                        checked = if (i in checked) checked - i else checked + i
-                                    })
-                                    Text(label)
-                                }
-                            },
-                            onClick = {
-                                checked = if (i in checked) checked - i else checked + i
-                            }
-                        )
-                    }
+            Text(
+                "${stringResource(R.string.checklist_title)} (${checked.size}/${checklist.size})",
+                style = MaterialTheme.typography.titleMedium
+            )
+            checklist.forEachIndexed { i, label ->
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(i in checked, {
+                        checked = if (i in checked) checked - i else checked + i
+                    })
+                    Text(label)
                 }
             }
             Button(onClick = {
