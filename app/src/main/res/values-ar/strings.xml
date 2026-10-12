@@ -17,7 +17,7 @@
     <string name="ins_good">جيد</string>
     <string name="occupants">عدد الأشخاص</string>
     <string name="kitchen">مطبخ (+4000 BTU)</string>
-    <string name="topfloor">الطابق الأخير (+10 %%)</string>
+    <string name="topfloor" formatted="false">الطابق الأخير (+10 %)</string>
     <string name="calculate">احسب</string>
     <string name="btu_needed">الـ BTU المطلوبة</string>
     <string name="power_kw">القدرة (kW)</string>
@@ -37,6 +37,16 @@
     <string name="lang_ar">العربية</string>
     <string name="about">يعمل دون إنترنت • بدون حساب • البيانات على الجهاز</string>
     <string name="no_data">لا توجد بيانات بعد.</string>
+    <string name="section_room">الغرفة والعميل</string>
+    <string name="section_load">الحمل الحراري</string>
+    <string name="options_title">خيارات</string>
+    <string name="readout_btu">الحمل المحسوب</string>
+    <string name="checklist_progress">%1$d / %2$d تحقّق</string>
+    <string name="empty_fiches_title">لا توجد بطاقة</string>
+    <string name="empty_fiches_hint">أنشئ حسابًا للحمل الحراري ثم سجّل البطاقة لتجدها هنا، حتى بدون إنترنت.</string>
+    <string name="empty_clients_title">لا يوجد زبون</string>
+    <string name="empty_clients_hint">أضف زبونًا مع رقم هاتفه لتجده هنا، حتى بدون إنترنت.</string>
+    <string name="new_sizing">حساب جديد</string>
     <string-array name="checklist_items">
         <item>فحص ضغوط HP/BP ‏(R32 / R410A)‏</item>
         <item>كشف التسرب (كاشف + رغوة)</item>

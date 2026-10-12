@@ -25,7 +25,7 @@ import com.climdz.app.AppViewModel
 import com.climdz.app.R
 
 @Composable
-fun ClientsScreen(vm: AppViewModel) {
+fun ClientsScreen(vm: AppViewModel, onNew: () -> Unit) {
     val clients by vm.clients.collectAsState()
     var name by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
@@ -43,7 +43,15 @@ fun ClientsScreen(vm: AppViewModel) {
             Text(stringResource(R.string.add_client))
         }
         if (clients.isEmpty()) {
-            Text(stringResource(R.string.no_data))
+            ClimEmptyState(
+                title = stringResource(R.string.empty_clients_title),
+                hint = stringResource(R.string.empty_clients_hint),
+                action = {
+                    Button(onClick = onNew, modifier = Modifier.padding(top = 8.dp)) {
+                        Text(stringResource(R.string.new_sizing))
+                    }
+                }
+            )
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(clients, key = { it.id }) { c ->
