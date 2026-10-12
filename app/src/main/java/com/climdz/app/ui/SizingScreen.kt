@@ -116,14 +116,14 @@ fun SizingScreen(vm: AppViewModel) {
         Card(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp)) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().selectable(selected = kitchen, role = Role.Checkbox) { kitchen = it }.padding(vertical = 12.dp),
+                            modifier = Modifier.fillMaxWidth().selectable(selected = kitchen, role = Role.Checkbox) { kitchen = !kitchen }.padding(vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Checkbox(checked = kitchen, onCheckedChange = null)
                     Text(stringResource(R.string.kitchen), modifier = Modifier.padding(start = 8.dp))
                 }
                 Row(
-                    modifier = Modifier.fillMaxWidth().selectable(selected = topFloor, role = Role.Checkbox) { topFloor = it }.padding(vertical = 12.dp),
+                            modifier = Modifier.fillMaxWidth().selectable(selected = topFloor, role = Role.Checkbox) { topFloor = !topFloor }.padding(vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Checkbox(checked = topFloor, onCheckedChange = null)
