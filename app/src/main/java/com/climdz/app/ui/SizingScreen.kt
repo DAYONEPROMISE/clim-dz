@@ -70,8 +70,8 @@ fun SizingScreen(vm: AppViewModel) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             OutlinedTextField(surface, { surface = it }, label = { Text(stringResource(R.string.surface)) }, modifier = Modifier.weight(1f))
             OutlinedTextField(height, { height = it }, label = { Text(stringResource(R.string.height)) }, modifier = Modifier.weight(1f))
-            OutlinedTextField(occupants, { occupants = it }, label = { Text(stringResource(R.string.occupants)) }, modifier = Modifier.weight(1f))
         }
+        OutlinedTextField(occupants, { occupants = it }, label = { Text(stringResource(R.string.occupants)) }, modifier = Modifier.fillMaxWidth())
 
         Card(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.padding(16.dp)) {
