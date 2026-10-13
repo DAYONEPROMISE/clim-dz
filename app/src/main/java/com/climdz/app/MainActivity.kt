@@ -59,14 +59,26 @@ fun applyLocale(tag: String, ctx: android.content.Context) {
     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
 }
 
+/** Switch language: persist, ask the system for the locale, then rebuild the UI. */
+private fun Context.switchLanguage(tag: String) {
+    applyLocale(tag, this)
+    (this as? android.app.Activity)?.recreate()
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClimDzRoot() {
     val ctx = LocalContext.current
+    val activity = ctx as? android.app.Activity
     var lang by remember {
         mutableStateOf(
             ctx.getSharedPreferences("climdz", MODE_PRIVATE).getString("locale", "fr") ?: "fr"
         )
+    }
+    fun switchLang(next: String) {
+        lang = next
+        ctx.switchLanguage(next)
+        activity?.recreate()
     }
     ClimDzTheme(dark = isSystemInDarkTheme()) {
         val nav = rememberNavController()
@@ -94,9 +106,7 @@ fun ClimDzRoot() {
                     subtitle = subtitle,
                     trailing = {
                         TextButton(onClick = {
-                            val next = if (lang == "fr") "ar" else "fr"
-                            lang = next
-                            applyLocale(next, ctx)
+                            switchLang(if (lang == "fr") "ar" else "fr")
                         }) {
                             Text(
                                 if (lang == "fr") stringResource(R.string.lang_ar)
@@ -143,10 +153,7 @@ fun ClimDzRoot() {
                     InterventionsScreen(vm) { nav.navigate("sizing") { launchSingleTop = true } }
                 }
                 composable("settings") {
-                    SettingsScreen(lang) {
-                        lang = it
-                        applyLocale(it, ctx)
-                    }
+                    SettingsScreen(lang) { next -> switchLang(next) }
                 }
             }
         }
