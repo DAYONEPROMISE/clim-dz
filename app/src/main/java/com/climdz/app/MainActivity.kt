@@ -136,8 +136,12 @@ fun ClimDzRoot() {
         ) { pad ->
             NavHost(nav, startDestination = "sizing", modifier = Modifier.padding(pad)) {
                 composable("sizing") { SizingScreen(vm) }
-                composable("clients") { ClientsScreen(vm) }
-                composable("fiches") { InterventionsScreen(vm) }
+                composable("clients") {
+                    ClientsScreen(vm) { nav.navigate("sizing") { launchSingleTop = true } }
+                }
+                composable("fiches") {
+                    InterventionsScreen(vm) { nav.navigate("sizing") { launchSingleTop = true } }
+                }
                 composable("settings") {
                     SettingsScreen(lang) {
                         lang = it
