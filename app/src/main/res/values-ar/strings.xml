@@ -61,4 +61,12 @@
         <item>تعبئة الغاز عند نقص مؤكد</item>
         <item>تجربة نهائية + توصيات للزبون</item>
     </string-array>
+    <string name="calculate_cta">احسب الحمل</string>
+    <string name="result_title">النتيجة</string>
+    <string name="section_number_1">٠١</string>
+    <string name="section_number_2">٠٢</string>
+    <string name="section_number_3">٠٣</string>
+    <string name="app_subtitle">الحمل الحراري — بدون إنترنت</string>
+    <string name="clients_subtitle">سجل محلي</string>
+    <string name="fiches_subtitle">التدخلات المسجلة</string>
 </resources>

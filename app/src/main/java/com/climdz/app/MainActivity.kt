@@ -17,12 +17,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -38,9 +40,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.climdz.app.ui.ClientsScreen
 import com.climdz.app.ui.ClimDzTheme
+import com.climdz.app.ui.ClimHeader
 import com.climdz.app.ui.InterventionsScreen
 import com.climdz.app.ui.SettingsScreen
 import com.climdz.app.ui.SizingScreen
+
+private const val MODE_PRIVATE = android.content.Context.MODE_PRIVATE
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,8 +58,6 @@ fun applyLocale(tag: String, ctx: android.content.Context) {
     ctx.getSharedPreferences("climdz", MODE_PRIVATE).edit().putString("locale", tag).apply()
     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
 }
-
-private const val MODE_PRIVATE = android.content.Context.MODE_PRIVATE
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,15 +80,30 @@ fun ClimDzRoot() {
             "fiches" -> stringResource(R.string.tab_interventions)
             else -> stringResource(R.string.tab_settings)
         }
+        val subtitle = when (cur) {
+            "sizing" -> stringResource(R.string.app_subtitle)
+            "clients" -> stringResource(R.string.clients_subtitle)
+            "fiches" -> stringResource(R.string.fiches_subtitle)
+            else -> stringResource(R.string.about)
+        }
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
-                TopAppBar(
-                    title = { Text(title) },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary
-                    )
+                ClimHeader(
+                    title = title,
+                    subtitle = subtitle,
+                    trailing = {
+                        TextButton(onClick = {
+                            val next = if (lang == "fr") "ar" else "fr"
+                            lang = next
+                            applyLocale(next, ctx)
+                        }) {
+                            Text(
+                                if (lang == "fr") stringResource(R.string.lang_ar)
+                                else stringResource(R.string.lang_fr)
+                            )
+                        }
+                    }
                 )
             },
             bottomBar = {
@@ -106,6 +124,9 @@ fun ClimDzRoot() {
                         NavigationBarItem(
                             selected = cur == t,
                             onClick = { nav.navigate(t) { launchSingleTop = true } },
+                            colors = NavigationBarItemDefaults.colors(
+                                indicatorColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
                             icon = { Icon(icon, contentDescription = label) },
                             label = { Text(label) }
                         )
@@ -115,8 +136,8 @@ fun ClimDzRoot() {
         ) { pad ->
             NavHost(nav, startDestination = "sizing", modifier = Modifier.padding(pad)) {
                 composable("sizing") { SizingScreen(vm) }
-                composable("clients") { ClientsScreen(vm) { nav.navigate("sizing") { launchSingleTop = true } } }
-                composable("fiches") { InterventionsScreen(vm) { nav.navigate("sizing") { launchSingleTop = true } } }
+                composable("clients") { ClientsScreen(vm) }
+                composable("fiches") { InterventionsScreen(vm) }
                 composable("settings") {
                     SettingsScreen(lang) {
                         lang = it

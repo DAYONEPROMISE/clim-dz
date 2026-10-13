@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -18,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -44,6 +47,7 @@ fun ClientsScreen(vm: AppViewModel, onNew: () -> Unit) {
         }
         if (clients.isEmpty()) {
             ClimEmptyState(
+                icon = Icons.Default.Person,
                 title = stringResource(R.string.empty_clients_title),
                 hint = stringResource(R.string.empty_clients_hint),
                 action = {
@@ -55,12 +59,25 @@ fun ClientsScreen(vm: AppViewModel, onNew: () -> Unit) {
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(clients, key = { it.id }) { c ->
-                    Card(modifier = Modifier.fillMaxWidth()) {
-                        Row(modifier = Modifier.padding(12.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(c.name)
-                                if (c.phone.isNotBlank()) Text(c.phone)
-                                if (c.address.isNotBlank()) Text(c.address)
+                    ClimCard {
+                        Row(modifier = Modifier.padding(2.dp), verticalAlignment = Alignment.CenterVertically) {
+                            InitialsBadge(
+                                c.name.trim().take(2).uppercase().ifBlank { "??" }
+                            )
+                            Column(
+                                modifier = Modifier.weight(1f).padding(start = 12.dp)
+                            ) {
+                                Text(c.name, style = MaterialTheme.typography.titleSmall)
+                                if (c.phone.isNotBlank()) Text(
+                                    c.phone,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                if (c.address.isNotBlank()) Text(
+                                    c.address,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
                             }
                             TextButton(onClick = { vm.deleteClient(c) }) {
                                 Text(stringResource(R.string.delete))

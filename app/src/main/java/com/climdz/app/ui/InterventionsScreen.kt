@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Assignment
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -31,6 +33,7 @@ fun InterventionsScreen(vm: AppViewModel, onNew: () -> Unit) {
     Column(modifier = Modifier.padding(16.dp)) {
         if (items.isEmpty()) {
             ClimEmptyState(
+                icon = Icons.Default.Assignment,
                 title = stringResource(R.string.empty_fiches_title),
                 hint = stringResource(R.string.empty_fiches_hint),
                 action = {

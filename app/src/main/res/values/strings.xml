@@ -61,4 +61,12 @@
         <item>Complément de charge si sous-charge avérée</item>
         <item>Essai final + consignes au client</item>
     </string-array>
+    <string name="calculate_cta">Calculer la charge</string>
+    <string name="result_title">Résultat</string>
+    <string name="section_number_1">01</string>
+    <string name="section_number_2">02</string>
+    <string name="section_number_3">03</string>
+    <string name="app_subtitle">Charge thermique — hors ligne</string>
+    <string name="clients_subtitle">Registre local</string>
+    <string name="fiches_subtitle">Interventions enregistrées</string>
 </resources>

@@ -6,19 +6,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.climdz.app.R
 
@@ -29,24 +26,40 @@ fun SettingsScreen(lang: String, onLang: (String) -> Unit) {
         modifier = Modifier.verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        SectionLabel(stringResource(R.string.language))
-        Card(modifier = Modifier.fillMaxWidth()) {
-            Column(Modifier.selectableGroup().padding(vertical = 4.dp, horizontal = 8.dp)) {
-                listOf("fr" to stringResource(R.string.lang_fr), "ar" to stringResource(R.string.lang_ar)).forEach { (tag, label) ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth().selectable(selected = lang == tag, role = Role.RadioButton) { onLang(tag) }.padding(vertical = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(selected = lang == tag, onClick = null)
-                        Text(label, modifier = Modifier.padding(start = 8.dp))
+        Text(
+            stringResource(R.string.language).uppercase(),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(start = 4.dp)
+        )
+        ClimCard {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
+                listOf("fr" to stringResource(R.string.lang_fr), "ar" to stringResource(R.string.lang_ar))
+                    .forEach { (tag, label) ->
+                        FilterChip(
+                            selected = lang == tag,
+                            onClick = { onLang(tag) },
+                            label = { Text(label, style = MaterialTheme.typography.labelLarge) },
+                            shape = RoundedCornerShape(50),
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = MaterialTheme.colorScheme.primary,
+                                selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                                containerColor = MaterialTheme.colorScheme.surface,
+                                labelColor = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        )
                     }
-                }
             }
         }
 
-        SectionLabel(stringResource(R.string.checklist_title))
-        Card(modifier = Modifier.fillMaxWidth()) {
-            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Text(
+            stringResource(R.string.checklist_title).uppercase(),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(start = 4.dp)
+        )
+        ClimCard {
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 checklist.forEach { item ->
                     Text("• $item", style = MaterialTheme.typography.bodyMedium)
                 }

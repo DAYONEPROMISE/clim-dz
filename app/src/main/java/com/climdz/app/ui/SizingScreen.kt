@@ -7,19 +7,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.climdz.app.AppViewModel
 import com.climdz.app.Exposure
@@ -58,91 +59,118 @@ fun SizingScreen(vm: AppViewModel) {
 
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()).padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        SectionLabel(stringResource(R.string.section_room))
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedTextField(roomLabel, { roomLabel = it }, label = { Text(stringResource(R.string.room_label)) }, modifier = Modifier.fillMaxWidth())
-            OutlinedTextField(clientName, { clientName = it }, label = { Text(stringResource(R.string.client_name)) }, modifier = Modifier.fillMaxWidth())
+        NumberedSection(stringResource(R.string.section_number_1), stringResource(R.string.section_room)) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                OutlinedTextField(
+                    value = roomLabel,
+                    onValueChange = { roomLabel = it },
+                    label = { Text(stringResource(R.string.room_label)) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                OutlinedTextField(
+                    value = clientName,
+                    onValueChange = { clientName = it },
+                    label = { Text(stringResource(R.string.client_name)) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
 
-        SectionLabel(stringResource(R.string.section_load))
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedTextField(surface, { surface = it }, label = { Text(stringResource(R.string.surface)) }, modifier = Modifier.weight(1f))
-            OutlinedTextField(height, { height = it }, label = { Text(stringResource(R.string.height)) }, modifier = Modifier.weight(1f))
-        }
-        OutlinedTextField(occupants, { occupants = it }, label = { Text(stringResource(R.string.occupants)) }, modifier = Modifier.fillMaxWidth())
+        NumberedSection(stringResource(R.string.section_number_2), stringResource(R.string.section_load)) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedTextField(
+                        value = surface,
+                        onValueChange = { surface = it },
+                        label = { Text(stringResource(R.string.surface)) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    OutlinedTextField(
+                        value = height,
+                        onValueChange = { height = it },
+                        label = { Text(stringResource(R.string.height)) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                OutlinedTextField(
+                    value = occupants,
+                    onValueChange = { occupants = it },
+                    label = { Text(stringResource(R.string.occupants)) },
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-        Card(modifier = Modifier.fillMaxWidth()) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(stringResource(R.string.exposure), style = MaterialTheme.typography.titleSmall)
-                Column(Modifier.selectableGroup()) {
-                    Exposure.values().forEach { e ->
+                Text(
+                    stringResource(R.string.exposure),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.fillMaxWidth()) {
+                    Exposure.entries.forEach { e ->
                         val label = when (e) {
                             Exposure.SHADED -> stringResource(R.string.exp_shaded)
                             Exposure.AVERAGE -> stringResource(R.string.exp_average)
                             Exposure.SUNNY -> stringResource(R.string.exp_sunny)
                         }
-                        Row(
-                            modifier = Modifier.fillMaxWidth().selectable(selected = exposure == e, role = Role.RadioButton) { exposure = e }.padding(vertical = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(selected = exposure == e, onClick = null)
-                            Text(label, modifier = Modifier.padding(start = 8.dp))
-                        }
+                        ChoiceChip(
+                            selected = exposure == e,
+                            onClick = { exposure = e },
+                            label = label
+                        )
                     }
                 }
-                Text(stringResource(R.string.insulation), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 8.dp))
-                Column(Modifier.selectableGroup()) {
-                    Insulation.values().forEach { s ->
+
+                Text(
+                    stringResource(R.string.insulation),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 6.dp)
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.fillMaxWidth()) {
+                    Insulation.entries.forEach { s ->
                         val label = when (s) {
                             Insulation.POOR -> stringResource(R.string.ins_poor)
                             Insulation.AVERAGE -> stringResource(R.string.ins_average)
                             Insulation.GOOD -> stringResource(R.string.ins_good)
                         }
-                        Row(
-                            modifier = Modifier.fillMaxWidth().selectable(selected = insulation == s, role = Role.RadioButton) { insulation = s }.padding(vertical = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(selected = insulation == s, onClick = null)
-                            Text(label, modifier = Modifier.padding(start = 8.dp))
-                        }
+                        ChoiceChip(
+                            selected = insulation == s,
+                            onClick = { insulation = s },
+                            label = label
+                        )
                     }
                 }
             }
         }
 
-        SectionLabel(stringResource(R.string.options_title))
-        Card(modifier = Modifier.fillMaxWidth()) {
-            Column(modifier = Modifier.padding(vertical = 4.dp, horizontal = 16.dp)) {
-                Row(
-                            modifier = Modifier.fillMaxWidth().selectable(selected = kitchen, role = Role.Checkbox) { kitchen = !kitchen }.padding(vertical = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(checked = kitchen, onCheckedChange = null)
-                    Text(stringResource(R.string.kitchen), modifier = Modifier.padding(start = 8.dp))
-                }
-                Row(
-                            modifier = Modifier.fillMaxWidth().selectable(selected = topFloor, role = Role.Checkbox) { topFloor = !topFloor }.padding(vertical = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(checked = topFloor, onCheckedChange = null)
-                    Text(stringResource(R.string.topfloor), modifier = Modifier.padding(start = 8.dp))
-                }
+        NumberedSection(stringResource(R.string.section_number_3), stringResource(R.string.options_title)) {
+            Column {
+                ChoiceCheckRow(
+                    selected = kitchen,
+                    onToggle = { kitchen = !kitchen },
+                    label = stringResource(R.string.kitchen)
+                )
+                ChoiceCheckRow(
+                    selected = topFloor,
+                    onToggle = { topFloor = !topFloor },
+                    label = stringResource(R.string.topfloor)
+                )
             }
         }
 
-        Button(onClick = {
-            result = SizingEngine.computeBtu(
-                surface.toDoubleOrNull() ?: 20.0,
-                height.toDoubleOrNull() ?: 2.8,
-                exposure, insulation,
-                occupants.toIntOrNull() ?: 2,
-                kitchen, topFloor
-            )
-        }, modifier = Modifier.fillMaxWidth()) {
-            Text(stringResource(R.string.calculate))
-        }
+        CoralButton(
+            onClick = {
+                result = SizingEngine.computeBtu(
+                    surface.toDoubleOrNull() ?: 20.0,
+                    height.toDoubleOrNull() ?: 2.8,
+                    exposure, insulation,
+                    occupants.toIntOrNull() ?: 2,
+                    kitchen, topFloor
+                )
+            },
+            text = stringResource(R.string.calculate_cta)
+        )
 
         result?.let { btu ->
             val rec = SizingEngine.recommendedSize(btu)
@@ -178,13 +206,16 @@ fun SizingScreen(vm: AppViewModel) {
                 )
             ) {
                 Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                    Text(stringResource(R.string.recommended).uppercase(), style = MaterialTheme.typography.labelMedium)
+                    Text(
+                        stringResource(R.string.recommended).uppercase(),
+                        style = MaterialTheme.typography.labelMedium
+                    )
                     Text("${fmt(rec)} BTU", style = MaterialTheme.typography.headlineSmall)
                 }
             }
 
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            ClimCard {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(stringResource(R.string.checklist_title), style = MaterialTheme.typography.titleSmall)
                     Text(
                         stringResource(R.string.checklist_progress, checked.size, checklist.size),
@@ -196,20 +227,17 @@ fun SizingScreen(vm: AppViewModel) {
                         modifier = Modifier.fillMaxWidth()
                     )
                     checklist.forEachIndexed { i, label ->
-                        Row(
-                            modifier = Modifier.fillMaxWidth().selectable(selected = i in checked, role = Role.Checkbox) {
-                                checked = if (i in checked) checked - i else checked + i
-                            }.padding(vertical = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Checkbox(checked = i in checked, onCheckedChange = null)
-                            Text(label, modifier = Modifier.padding(start = 8.dp), style = MaterialTheme.typography.bodyMedium)
-                        }
+                        ChoiceCheckRow(
+                            selected = i in checked,
+                            onToggle = { checked = if (i in checked) checked - i else checked + i },
+                            label = label,
+                            compact = true
+                        )
                     }
                 }
             }
 
-            Button(onClick = {
+           Button(onClick = {
                 vm.addIntervention(
                     Intervention(
                         clientName = clientName, dateEpoch = System.currentTimeMillis(),
@@ -228,5 +256,46 @@ fun SizingScreen(vm: AppViewModel) {
                 Text(stringResource(R.string.save_fiche))
             }
         }
+    }
+}
+
+/** Selectable chip (replaces radio buttons in the v3 system). */
+@Composable
+private fun ChoiceChip(selected: Boolean, onClick: () -> Unit, label: String) {
+    FilterChip(
+        selected = selected,
+        onClick = onClick,
+        label = { Text(label, style = MaterialTheme.typography.labelLarge) },
+        shape = RoundedCornerShape(50),
+        colors = FilterChipDefaults.filterChipColors(
+            selectedContainerColor = MaterialTheme.colorScheme.primary,
+            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.surface,
+            labelColor = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    )
+}
+
+/** Checkbox row driven by the whole-row click target. */
+@Composable
+private fun ChoiceCheckRow(
+    selected: Boolean,
+    onToggle: () -> Unit,
+    label: String,
+    compact: Boolean = false
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .selectable(selected = selected, role = Role.Checkbox) { onToggle() }
+            .padding(vertical = if (compact) 4.dp else 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(checked = selected, onCheckedChange = null)
+        Text(
+            label,
+            style = if (compact) MaterialTheme.typography.bodyMedium else MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(start = 8.dp)
+        )
     }
 }
