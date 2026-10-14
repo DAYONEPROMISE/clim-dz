@@ -47,8 +47,22 @@ import com.climdz.app.ui.SettingsScreen
 import com.climdz.app.ui.SizingScreen
 
 private const val MODE_PRIVATE = android.content.Context.MODE_PRIVATE
+private const val PREFS_CLIM = "climdz"
+private const val KEY_LOCALE = "locale"
+
+private fun savedLocale(ctx: android.content.Context): String =
+    ctx.getSharedPreferences(PREFS_CLIM, MODE_PRIVATE).getString(KEY_LOCALE, "fr") ?: "fr"
 
 class MainActivity : ComponentActivity() {
+    override fun attachBaseContext(newBase: android.content.Context) {
+        val locale = java.util.Locale(savedLocale(newBase))
+        java.util.Locale.setDefault(locale)
+        val config = android.content.res.Configuration(newBase.resources.configuration)
+        config.setLocale(locale)
+        config.setLayoutDirection(locale)
+        super.attachBaseContext(newBase.createConfigurationContext(config))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent { ClimDzRoot() }
@@ -56,12 +70,11 @@ class MainActivity : ComponentActivity() {
 }
 
 fun applyLocale(tag: String, ctx: android.content.Context) {
-    ctx.getSharedPreferences("climdz", MODE_PRIVATE).edit().putString("locale", tag).apply()
+    ctx.getSharedPreferences(PREFS_CLIM, MODE_PRIVATE).edit().putString(KEY_LOCALE, tag).apply()
     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
 }
 
-/** Switch language: persist, ask the system for the locale, then rebuild the UI. */
-private fun Context.switchLanguage(tag: String) {
+private fun android.content.Context.switchLanguage(tag: String) {
     applyLocale(tag, this)
     (this as? android.app.Activity)?.recreate()
 }
@@ -71,11 +84,7 @@ private fun Context.switchLanguage(tag: String) {
 fun ClimDzRoot() {
     val ctx = LocalContext.current
     val activity = ctx as? android.app.Activity
-    var lang by remember {
-        mutableStateOf(
-            ctx.getSharedPreferences("climdz", MODE_PRIVATE).getString("locale", "fr") ?: "fr"
-        )
-    }
+    var lang by remember { mutableStateOf(savedLocale(ctx)) }
     fun switchLang(next: String) {
         lang = next
         ctx.switchLanguage(next)
